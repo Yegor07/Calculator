@@ -53,9 +53,7 @@ public class MainModelRealize implements MainModel {
                     case "multiply":
                         c = a.multiply(b);
                         break;
-                    case "equally":
-
-                        break;
+                    
                 }
 
             }
