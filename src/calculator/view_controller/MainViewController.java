@@ -62,7 +62,6 @@ public class MainViewController implements MainView {
 
     @Override
     public void showCurrentExpressionValue(String value) {
-        //TODO implement me
         currentExpressionValueTextView.setText(value);
     }
 
