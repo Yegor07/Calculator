@@ -1,12 +1,14 @@
 package calculator.model;
 
+import java.math.BigInteger;
+
 public interface MainModel {
     void updateCurrentNumber(String digit);
     String getCurrentNumber();
-    String getCurrentExpressionValue();
+    BigInteger getCurrentExpressionValue();
     void cleanLastDigit();
     void cleanAll();
-    void calculationDigit(String operation);
-    void negativeValue();
+    void calculateDigit(String operation);
+    void negateValue();
 
 }

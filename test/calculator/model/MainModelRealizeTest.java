@@ -6,6 +6,8 @@ import calculator.view_interfaces.MainView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MainModelRealizeTest {
@@ -30,7 +32,7 @@ class MainModelRealizeTest {
             }
 
             @Override
-            public void addToHistory(String getCurrentExpressionValue,String lastOperation, String getCurrentNumber, String value) {
+            public void addToHistory(BigInteger getCurrentExpressionValue, String lastOperation, String getCurrentNumber, String value) {
 
             }
 
@@ -58,172 +60,193 @@ class MainModelRealizeTest {
         m.updateCurrentNumber("4");
         m.cleanLastDigit();
         assertEquals("1", m.getCurrentNumber());
+
+        m.cleanAll();
+
+        m.updateCurrentNumber("-3");
+        m.cleanLastDigit();
+        assertEquals("",m.getCurrentNumber());
     }
 
     @Test
-    void cleanAllDigit(){
+    void cleanAllDigit() {
         m.cleanAll();
-        assertEquals("",m.getCurrentNumber());
+        assertEquals("", m.getCurrentNumber());
 
         m.updateCurrentNumber("5");
         m.updateCurrentNumber("3");
         m.cleanAll();
-        assertEquals("",m.getCurrentNumber());
+        assertEquals("", m.getCurrentNumber());
 
-        m.updateCurrentExpressionValue("3");
+        m.updateCurrentExpressionValue(BigInteger.valueOf(3));
         m.updateCurrentNumber("2");
         m.cleanAll();
-        assertEquals("",m.getCurrentNumber());
-        assertEquals("",m.getCurrentExpressionValue());
-
+        assertEquals("", m.getCurrentNumber());
+        assertEquals("0", m.getCurrentExpressionValue().toString());
     }
 
     @Test
-    void addiction(){
-
+    void equally() {
         //region EQUALLY
-        m.calculationDigit("equally");
-        assertEquals("",m.getCurrentNumber());
+        m.calculateDigit("equally");
+        assertEquals("", m.getCurrentNumber());
         //endregion EQUALLY
+    }
 
-        //region PLUS
-        m.calculationDigit("plus");
-        assertEquals("",m.getCurrentNumber());
-        m.updateCurrentNumber("5");
-        m.calculationDigit("plus");
-        m.updateCurrentNumber("3");
-        m.calculationDigit("plus");
-        assertEquals("8",m.getCurrentExpressionValue());
-
-
-        m.updateCurrentNumber("5");
-        m.calculationDigit("plus");
-        m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("16",m.getCurrentExpressionValue());
-        //endregion PLUS
-
+    @Test
+    void subtraction() {
         //region MINUS
         m.cleanAll();
 
-        m.calculationDigit("minus");
-        assertEquals("",m.getCurrentNumber());
+        m.calculateDigit("minus");
+        assertEquals("", m.getCurrentNumber());
 
         m.updateCurrentNumber("5");
-        m.calculationDigit("minus");
+        m.calculateDigit("minus");
         m.updateCurrentNumber("3");
-        m.calculationDigit("minus");
-        assertEquals("2",m.getCurrentExpressionValue());
+        m.calculateDigit("minus");
+        assertEquals("2", m.getCurrentExpressionValue().toString());
 
 
         m.updateCurrentNumber("5");
-        m.calculationDigit("minus");
+        m.calculateDigit("minus");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("-6",m.getCurrentExpressionValue());
+        m.calculateDigit("equally");
+        assertEquals("-6", m.getCurrentExpressionValue().toString());
         //endregion MINUS
+    }
 
+    @Test
+    void multiplication() {
         //region MULTIPLY
         m.cleanAll();
 
-        m.calculationDigit("multiply");
-        assertEquals("",m.getCurrentNumber());
+        m.calculateDigit("multiply");
+        assertEquals("", m.getCurrentNumber());
 
         m.updateCurrentNumber("5");
-        m.calculationDigit("multiply");
+        m.calculateDigit("multiply");
         m.updateCurrentNumber("3");
-        m.calculationDigit("multiply");
-        assertEquals("15",m.getCurrentExpressionValue());
+        m.calculateDigit("multiply");
+        assertEquals("15", m.getCurrentExpressionValue().toString());
 
 
         m.updateCurrentNumber("5");
-        m.calculationDigit("multiply");
+        m.calculateDigit("multiply");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("225",m.getCurrentExpressionValue());
+        m.calculateDigit("equally");
+        assertEquals("225", m.getCurrentExpressionValue().toString());
         //endregion MULTIPLY
+    }
 
+    @Test
+    void division() {
         //region DIVIDE
         m.cleanAll();
 
-        m.calculationDigit("divide");
-        assertEquals("",m.getCurrentNumber());
+        m.calculateDigit("divide");
+        assertEquals("", m.getCurrentNumber());
 
         m.updateCurrentNumber("15");
-        m.calculationDigit("divide");
+        m.calculateDigit("divide");
         m.updateCurrentNumber("3");
-        m.calculationDigit("divide");
-        assertEquals("5",m.getCurrentExpressionValue());
+        m.calculateDigit("divide");
+        assertEquals("5", m.getCurrentExpressionValue().toString());
 
 
         m.updateCurrentNumber("5");
-        m.calculationDigit("divide");
+        m.calculateDigit("divide");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("0",m.getCurrentExpressionValue());
+        m.calculateDigit("equally");
+        assertEquals("0", m.getCurrentExpressionValue().toString());
         //endregion DIVIDE
+    }
 
+    @Test
+    void exponentiation() {
+        //region POWER
+        m.cleanAll();
+
+        m.calculateDigit("power");
+        assertEquals("", m.getCurrentNumber());
+
+        m.updateCurrentNumber("2");
+        m.calculateDigit("power");
+        m.updateCurrentNumber("1");
+        m.calculateDigit("power");
+        assertEquals("2", m.getCurrentExpressionValue().toString());
+
+        m.updateCurrentNumber("2");
+        m.calculateDigit("power");
+        m.updateCurrentNumber("3");
+        m.calculateDigit("equally");
+        assertEquals("64", m.getCurrentExpressionValue().toString());
+
+        m.cleanAll();
+        m.updateCurrentNumber("-2");
+        m.calculateDigit("power");
+        m.updateCurrentNumber("4");
+        m.calculateDigit("equally");
+        assertEquals("16", m.getCurrentExpressionValue().toString());
+
+        m.cleanAll();
+        m.updateCurrentNumber("-2");
+        m.calculateDigit("power");
+        m.updateCurrentNumber("3");
+        m.calculateDigit("equally");
+        assertEquals("-8", m.getCurrentExpressionValue().toString());
+
+        m.cleanAll();
+        m.updateCurrentNumber("2");
+        m.calculateDigit("power");
+        m.updateCurrentNumber("-4");
+        m.calculateDigit("equally");
+        assertEquals("0", m.getCurrentExpressionValue().toString());
+        assertEquals("", m.getCurrentNumber());
+        //endregion POWER
+    }
+
+    @Test
+    void divisionRemainder() {
         //region PERCENT
 
         m.cleanAll();
 
-        m.calculationDigit("percent");
-        assertEquals("",m.getCurrentNumber());
+        m.calculateDigit("percent");
+        assertEquals("", m.getCurrentNumber());
 
         m.updateCurrentNumber("15");
-        m.calculationDigit("percent");
+        m.calculateDigit("percent");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("0",m.getCurrentExpressionValue());
+        m.calculateDigit("equally");
+        assertEquals("0", m.getCurrentExpressionValue().toString());
 
         m.cleanAll();
         m.updateCurrentNumber("5");
-        m.calculationDigit("percent");
+        m.calculateDigit("percent");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("2",m.getCurrentExpressionValue());
+        m.calculateDigit("equally");
+        assertEquals("2", m.getCurrentExpressionValue().toString());
         //endregion PERCENT
+    }
 
-        //region POWER
-        m.cleanAll();
-
-        m.calculationDigit("power");
-        assertEquals("",m.getCurrentNumber());
-
-        m.updateCurrentNumber("2");
-        m.calculationDigit("power");
-        m.updateCurrentNumber("1");
-        m.calculationDigit("power");
-        assertEquals("2",m.getCurrentExpressionValue());
-
-        m.updateCurrentNumber("2");
-        m.calculationDigit("power");
+    @Test
+    void addiction() {
+        //region PLUS
+        m.calculateDigit("plus");
+        assertEquals("", m.getCurrentNumber());
+        m.updateCurrentNumber("5");
+        m.calculateDigit("plus");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("64",m.getCurrentExpressionValue());
+        m.calculateDigit("plus");
+        assertEquals("8", m.getCurrentExpressionValue().toString());
 
-        m.cleanAll();
-        m.updateCurrentNumber("-2");
-        m.calculationDigit("power");
-        m.updateCurrentNumber("4");
-        m.calculationDigit("equally");
-        assertEquals("16",m.getCurrentExpressionValue());
 
-        m.cleanAll();
-        m.updateCurrentNumber("-2");
-        m.calculationDigit("power");
+        m.updateCurrentNumber("5");
+        m.calculateDigit("plus");
         m.updateCurrentNumber("3");
-        m.calculationDigit("equally");
-        assertEquals("-8",m.getCurrentExpressionValue());
-
-        m.cleanAll();
-        m.updateCurrentNumber("2");
-        m.calculationDigit("power");
-        m.updateCurrentNumber("-4");
-        m.calculationDigit("equally");
-        assertEquals("",m.getCurrentExpressionValue());
-        assertEquals("",m.getCurrentNumber());
-        //endregion POWER
-
+        m.calculateDigit("equally");
+        assertEquals("16", m.getCurrentExpressionValue().toString());
+        //endregion PLUS
     }
 }

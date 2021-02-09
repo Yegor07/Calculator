@@ -10,6 +10,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
+import java.math.BigInteger;
+
 
 public class MainViewController implements MainView {
 
@@ -40,12 +42,12 @@ public class MainViewController implements MainView {
     @FXML
     private void clickOperationButton(ActionEvent event) {
         Button operation = (Button) event.getSource();
-        model.calculationDigit(operation.getId());
+        model.calculateDigit(operation.getId());
     }
 
     @FXML
     private void clickNegativeButton(ActionEvent event) {
-        model.negativeValue();
+        model.negateValue();
     }
 
     @FXML
@@ -60,11 +62,7 @@ public class MainViewController implements MainView {
 
     @FXML
     private void clickHistoryButton(ActionEvent event) {
-        if (historyCheck.isSelected()) {
-            historyArea.setVisible(true);
-        } else {
-            historyArea.setVisible(false);
-        }
+        historyArea.setVisible(historyCheck.isSelected());
     }
     //endregion ControllerMethods
 
@@ -86,9 +84,9 @@ public class MainViewController implements MainView {
     }
 
     @Override
-    public void addToHistory(String getCurrentExpressionValue, String lastOperation, String getCurrentNumber, String value) {
-
-       historyArea.setText(historyArea.getText() + getCurrentExpressionValue + " " + switchOperation(lastOperation) + " " + getCurrentNumber + " = " + value + "\n");
+    public void addToHistory(BigInteger getCurrentExpressionValue, String lastOperation, String getCurrentNumber, String value) {
+        if (value.length() > 30) value = value.substring(0, 30) + "...";
+        historyArea.setText(historyArea.getText() + getCurrentExpressionValue.toString() + " " + switchOperation(lastOperation) + " " + getCurrentNumber + " = " + value + "\n");
 
     }
 
@@ -107,7 +105,7 @@ public class MainViewController implements MainView {
                 operation = "*";
                 break;
             case "percent":
-                operation = "%";
+                operation = "÷";
                 break;
             case "power":
                 operation = "^";
