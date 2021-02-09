@@ -14,7 +14,8 @@ public class MainModelRealize implements MainModel {
     }
 
     private StringBuilder currentNumber = new StringBuilder();
-    private String currentExpressionValue = "";
+    private StringBuilder history = new StringBuilder();
+    private String currentExpressionValue = "";  //TODO make it BigInteger
     private String lastOperation = "";
 
     @Override
@@ -26,6 +27,18 @@ public class MainModelRealize implements MainModel {
     public void updateCurrentExpressionValue(String value) {
         currentExpressionValue = value;
         view.showCurrentExpressionValue(getCurrentExpressionValue());
+    }
+
+    @Override
+    public void negativeValue() {
+        if (currentNumber.length() > 0) {
+            if (currentNumber.charAt(0) != '-') {
+                currentNumber.insert(0, "-");
+            } else {
+                currentNumber.deleteCharAt(0);
+            }
+            view.showCurrentNumber(getCurrentNumber());
+        }
     }
 
     @Override
@@ -53,19 +66,38 @@ public class MainModelRealize implements MainModel {
                     case "multiply":
                         c = a.multiply(b);
                         break;
-                    
+                    case "divide":
+                        c = a.divide(b);
+                        break;
+                    case "minus":
+                        c = a.subtract(b);
+                        break;
+                    case "percent":
+                        c = a.remainder(b);
+                        break;
+                    case "power":
+                        if (currentNumber.charAt(0) != '-') {
+                            c = a.pow(b.intValue());
+                        } else {
+                            cleanAll();
+                            return;
+                        }
+                        break;
                 }
-
+                view.addToHistory(getCurrentExpressionValue(), lastOperation, getCurrentNumber(), String.valueOf(c));
             }
 
             lastOperation = operation;
             updateCurrentExpressionValue(String.valueOf(c));
 
-            cleanAllDigit();
-        }
-        System.out.println();
-    }
 
+            if (currentNumber.length() > 0) {
+                currentNumber.setLength(0);
+                view.showCurrentNumber(getCurrentNumber());
+            }
+        }
+
+    }
 
     @Override
     public String getCurrentNumber() {
@@ -86,10 +118,13 @@ public class MainModelRealize implements MainModel {
     }
 
     @Override
-    public void cleanAllDigit() {
-        if (currentNumber.length() > 0) {
-            currentNumber.setLength(0);
-            view.showCurrentNumber(getCurrentNumber());
-        }
+    public void cleanAll() {
+        currentNumber.setLength(0);
+        currentExpressionValue = "";
+        view.showCurrentExpressionValue(getCurrentExpressionValue());
+        view.showCurrentNumber(getCurrentNumber());
+        view.showCurrentOperation("");
     }
+
+
 }

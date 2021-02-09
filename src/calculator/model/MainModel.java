@@ -5,7 +5,8 @@ public interface MainModel {
     String getCurrentNumber();
     String getCurrentExpressionValue();
     void cleanLastDigit();
-    void cleanAllDigit();
+    void cleanAll();
     void calculationDigit(String operation);
+    void negativeValue();
 
 }

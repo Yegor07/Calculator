@@ -14,7 +14,7 @@ public class Main extends Application {
 
     private Stage stage;
 
-    private Parent mainView;
+    private Parent mainView, historyView;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,6 +25,7 @@ public class Main extends Application {
 
     private void initMVC() throws IOException {
         this.mainView = loadView("CalculatorLayout.fxml", new MainModelRealize());
+        //this.historyView = ...
     }
 
     private Parent loadView(String name, MainModelRealize model) throws IOException {
@@ -39,7 +40,7 @@ public class Main extends Application {
 
     private void initStage() {
         stage.setTitle("Calculator");
-        stage.setScene(new Scene(mainView, 350, 350));
+        stage.setScene(new Scene(mainView, 425, 380));
         stage.show();
     }
 
