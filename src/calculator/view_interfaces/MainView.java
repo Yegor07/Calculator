@@ -1,13 +1,13 @@
 package calculator.view_interfaces;
 
-import java.math.BigInteger;
+import calculator.view_controller.RecordView;
 
-public interface MainView {
+public interface MainView extends BaseView {
     void showCurrentNumber(String number);
 
     void showCurrentExpressionValue(String value);
 
     void showCurrentOperation(String operation);
 
-    void addToHistory(BigInteger getCurrentExpressionValue, String lastOperation, String getCurrentNumber, String value);
+    RecordView addToHistory(RecordView record);
 }

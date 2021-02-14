@@ -1,14 +1,12 @@
 package calculator.model;
 
-import java.math.BigInteger;
-
-public interface MainModel {
+public interface MainModel extends BaseModel{
     void updateCurrentNumber(String digit);
     String getCurrentNumber();
-    BigInteger getCurrentExpressionValue();
+    String getCurrentExpressionValue();
     void cleanLastDigit();
     void cleanAll();
-    void calculateDigit(String operation);
+    void calculateExpression(String operation);
     void negateValue();
 
 }
