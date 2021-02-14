@@ -1,7 +1,7 @@
 package calculator;
 
-import calculator.view_controller.MainViewController;
 import calculator.model_impl.MainModelRealize;
+import calculator.view_controller.MainViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
