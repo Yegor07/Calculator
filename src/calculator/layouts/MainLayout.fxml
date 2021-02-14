@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="379.0" maxWidth="426.0" minWidth="425.0" prefHeight="379.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.view_controller.MainViewController">
+    <children>
+        <GridPane fx:id="grd_table" layoutX="14.0" layoutY="72.0" prefHeight="226.0" prefWidth="357.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="69.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="59.0" minWidth="50.0" prefWidth="59.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="50.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="0" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="0" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="1" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="2" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="2" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="3" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="3" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="4" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="4" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="5" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="6" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="7" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="7">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="8" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="8" GridPane.columnIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="9" mnemonicParsing="false" onAction="#clickNumberButton" prefHeight="50.0" prefWidth="55.0" text="9" GridPane.columnIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="divide" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="/" GridPane.columnIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="multiply" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="*" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="minus" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="-" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="plus" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="+" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="negative" mnemonicParsing="false" onAction="#clickNegativeButton" prefHeight="50.0" prefWidth="70.0" text="+/-" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="equally" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="93.0" text="=" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="CL" mnemonicParsing="false" onAction="#clickCLButton" prefHeight="50.0" prefWidth="70.0" text="CL" GridPane.columnIndex="5">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="CA" mnemonicParsing="false" onAction="#clickCAButton" prefHeight="50.0" prefWidth="70.0" text="CA" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="percent" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="÷" GridPane.columnIndex="4">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button fx:id="power" mnemonicParsing="false" onAction="#clickOperationButton" prefHeight="50.0" prefWidth="55.0" text="x^y" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </GridPane>
+        <Label fx:id="currentNumberTextView" layoutY="80.0" prefHeight="50.0" prefWidth="282.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="80.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="currentExpressionValueTextView" layoutY="29.0" prefHeight="50.0" prefWidth="282.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="29.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="currentOperationTextView" layoutX="376.0" layoutY="54.0" prefHeight="50.0" prefWidth="50.0" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+       
+        <TextArea fx:id="historyArea" editable="false" layoutX="35.0" layoutY="26.0" prefHeight="353.0" prefWidth="426.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </TextArea>
+      <Button fx:id="historyButton" mnemonicParsing="false" onAction="#clickHistoryButton" text="History" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+    </children>
+</AnchorPane>

@@ -6,20 +6,14 @@ import calculator.view_interfaces.MainView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-import java.math.BigInteger;
+import static calculator.core.ViewConstants.HISTORY_VIEW_ID;
+import static calculator.core.ViewConstants.MAIN_VIEW_ID;
 
 
-public class MainViewController implements MainView {
-
-    private MainModel model;
-
-    public void setModel(MainModel model) {
-        this.model = model;
-    }
+public class MainViewController extends BaseViewController<MainModel> implements MainView {
 
     @FXML
     private Label currentNumberTextView;
@@ -28,7 +22,7 @@ public class MainViewController implements MainView {
     @FXML
     private Label currentOperationTextView;
     @FXML
-    private CheckBox historyCheck;
+    private Button historyButton;
     @FXML
     private TextArea historyArea;
 
@@ -42,7 +36,13 @@ public class MainViewController implements MainView {
     @FXML
     private void clickOperationButton(ActionEvent event) {
         Button operation = (Button) event.getSource();
-        model.calculateDigit(operation.getId());
+        model.calculateExpression(operation.getId());
+        //model.en
+    }
+
+    @Override
+    public int getViewId(){
+        return MAIN_VIEW_ID;
     }
 
     @FXML
@@ -62,7 +62,7 @@ public class MainViewController implements MainView {
 
     @FXML
     private void clickHistoryButton(ActionEvent event) {
-        historyArea.setVisible(historyCheck.isSelected());
+        viewManager.changeView(HISTORY_VIEW_ID);
     }
     //endregion ControllerMethods
 
@@ -84,11 +84,10 @@ public class MainViewController implements MainView {
     }
 
     @Override
-    public void addToHistory(BigInteger getCurrentExpressionValue, String lastOperation, String getCurrentNumber, String value) {
-        if (value.length() > 30) value = value.substring(0, 30) + "...";
-        historyArea.setText(historyArea.getText() + getCurrentExpressionValue.toString() + " " + switchOperation(lastOperation) + " " + getCurrentNumber + " = " + value + "\n");
-
-    }
+    public RecordView addToHistory(RecordView record) {
+        record.lastOperation = switchOperation(record.lastOperation);
+        return record;
+       }
 
     public String switchOperation(String operation) {
         switch (operation) {

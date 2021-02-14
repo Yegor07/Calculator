@@ -1,22 +1,27 @@
 package calculator.model_impl;
 
+import calculator.DataBase.DBProvider;
 import calculator.model.MainModel;
+import calculator.view_controller.RecordView;
 import calculator.view_interfaces.MainView;
 
 import java.math.BigInteger;
 
-public class MainModelRealize implements MainModel {
+public class MainModelRealize extends BaseModelRealize<MainView> implements MainModel {
 
-    private MainView view;
 
-    public void setView(MainView view) {
-        this.view = view;
+    private DBProvider dbProvider;
+
+    public MainModelRealize(DBProvider db) {
+        dbProvider = db;
     }
 
+
     private StringBuilder currentNumber = new StringBuilder();
-    //  private String currentExpressionValue = "";  //TODO make it BigInteger
     private BigInteger currentExpressionValue = new BigInteger("0");
     private String lastOperation = "plus";
+    private long startTime;
+    private long endTime;
 
     @Override
     public void updateCurrentNumber(String digit) {
@@ -26,7 +31,7 @@ public class MainModelRealize implements MainModel {
 
     public void updateCurrentExpressionValue(BigInteger value) {
         currentExpressionValue = value;
-        view.showCurrentExpressionValue(getCurrentExpressionValue().toString());
+        view.showCurrentExpressionValue(getCurrentExpressionValue());
     }
 
     @Override
@@ -42,8 +47,8 @@ public class MainModelRealize implements MainModel {
     }
 
     @Override
-    public void calculateDigit(String operation) {
-
+    public void calculateExpression(String operation) {
+        startTime= System.currentTimeMillis();
         if (lastOperation.equals("equally")) {
             lastOperation = operation;
         }
@@ -53,7 +58,7 @@ public class MainModelRealize implements MainModel {
             BigInteger a, b, c;
             c = new BigInteger(getCurrentNumber());
 
-            a = getCurrentExpressionValue();
+            a = new BigInteger(getCurrentExpressionValue());
             b = new BigInteger(getCurrentNumber());
 
 
@@ -82,8 +87,17 @@ public class MainModelRealize implements MainModel {
                     }
                     break;
             }
-            view.addToHistory(getCurrentExpressionValue(), lastOperation, getCurrentNumber(), c.toString());
+            endTime=System.currentTimeMillis();
 
+            RecordView record = new RecordView(dbProvider);
+
+            record.time = endTime-startTime;
+            record.CurrentExpressionValue = String.format("%.30s", getCurrentExpressionValue()) + (getCurrentExpressionValue().length() > 30 ? "..." : "");
+            record.lastOperation = lastOperation;
+            record.getCurrentNumber = String.format("%.30s", getCurrentNumber()) + (getCurrentNumber().length() > 30 ? "..." : "");
+            record.value = String.format("%.30s", c.toString()) + (c.toString().length() > 30 ? "..." : "");
+
+            dbProvider.addRecord(view.addToHistory(record));
 
             lastOperation = operation;
             updateCurrentExpressionValue(c);
@@ -95,6 +109,8 @@ public class MainModelRealize implements MainModel {
             }
         }
 
+       // System.out.println("time: "+(endTime-startTime)+"ms");
+
     }
 
     @Override
@@ -103,8 +119,8 @@ public class MainModelRealize implements MainModel {
     }
 
     @Override
-    public BigInteger getCurrentExpressionValue() {
-        return currentExpressionValue;
+    public String getCurrentExpressionValue() {
+        return currentExpressionValue.toString();
     }
 
     @Override
