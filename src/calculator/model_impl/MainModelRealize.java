@@ -2,17 +2,26 @@ package calculator.model_impl;
 
 import calculator.DataBase.DBProvider;
 import calculator.model.MainModel;
-import calculator.view_controller.RecordView;
+import calculator.view_controller.HistoryEntity;
 import calculator.view_interfaces.MainView;
 
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MainModelRealize extends BaseModelRealize<MainView> implements MainModel {
 
-
+    private ExecutorService executor;
     private DBProvider dbProvider;
 
+
     public MainModelRealize(DBProvider db) {
+
+        executor = Executors.newSingleThreadExecutor();
+
         dbProvider = db;
     }
 
@@ -46,12 +55,12 @@ public class MainModelRealize extends BaseModelRealize<MainView> implements Main
         }
     }
 
-    @Override
-    public void calculateExpression(String operation) {
-        startTime= System.currentTimeMillis();
+    private void compute(String operation){
+        startTime = System.currentTimeMillis();
         if (lastOperation.equals("equally")) {
             lastOperation = operation;
         }
+
 
         view.showCurrentOperation(operation);
         if (currentNumber.length() > 0) {
@@ -80,24 +89,49 @@ public class MainModelRealize extends BaseModelRealize<MainView> implements Main
                     break;
                 case "power":
                     if (currentNumber.charAt(0) != '-') {
-                        c = a.pow(b.intValue());
+                        c = binPow(a, b);
+                        // c = a.pow(b.intValue());
                     } else {
-                        cleanAll();
+                   //     cleanAll();//TODO Handle Exception
                         return;
                     }
                     break;
+                case "tetration":
+                    if (currentNumber.charAt(0) != '-') {
+                        if (b.compareTo(BigInteger.ZERO) == 0) {
+                            c = BigInteger.ONE;
+                            break;
+                        }
+                        c = new BigInteger(a.toString());
+
+                        while (b.compareTo(BigInteger.ONE) != 0) {
+
+                            c = binPow(a, c);
+
+                            b = b.subtract(BigInteger.ONE);
+                        }
+                    } else {
+                      //  cleanAll(); //TODO Handle Exception
+                        return;
+                    }
+
+
+                    break;
+
             }
-            endTime=System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
 
-            RecordView record = new RecordView(dbProvider);
+            HistoryEntity record = new HistoryEntity(dbProvider);
+            record.setDate(new Date());
 
-            record.time = endTime-startTime;
-            record.CurrentExpressionValue = String.format("%.30s", getCurrentExpressionValue()) + (getCurrentExpressionValue().length() > 30 ? "..." : "");
-            record.lastOperation = lastOperation;
-            record.getCurrentNumber = String.format("%.30s", getCurrentNumber()) + (getCurrentNumber().length() > 30 ? "..." : "");
-            record.value = String.format("%.30s", c.toString()) + (c.toString().length() > 30 ? "..." : "");
+            record.setTime(endTime - startTime);
+            record.setCurrentExpressionValue(getCurrentExpressionValue());
+            record.setLastOperation(view.switchOperation(lastOperation));
+            record.setCurrentNumber(getCurrentNumber());
+            record.setValue(c.toString());
 
-            dbProvider.addRecord(view.addToHistory(record));
+            dbProvider.addRecord(record);
+
 
             lastOperation = operation;
             updateCurrentExpressionValue(c);
@@ -108,9 +142,39 @@ public class MainModelRealize extends BaseModelRealize<MainView> implements Main
                 view.showCurrentNumber(getCurrentNumber());
             }
         }
+        view.enableUI();
+    }
 
-       // System.out.println("time: "+(endTime-startTime)+"ms");
+    @Override
+    public void calculateExpression(String operation) {
 
+        view.disableUI();
+        executor.execute(()->compute(operation));
+
+    }
+
+    @Override
+    public void shutDownExecute(){
+        executor.shutdownNow();
+        try {
+            if (!executor.awaitTermination(100, TimeUnit.MICROSECONDS)) {
+                System.exit(0);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private BigInteger binPow(BigInteger a, BigInteger b) {
+        BigInteger c = BigInteger.ONE;
+        while (b.compareTo(BigInteger.ZERO) != 0) {
+            if (b.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0) {
+                c = c.multiply(a);
+            }
+            a = a.multiply(a);
+            b = b.shiftRight(1);
+        }
+        return c;
     }
 
     @Override
@@ -121,6 +185,12 @@ public class MainModelRealize extends BaseModelRealize<MainView> implements Main
     @Override
     public String getCurrentExpressionValue() {
         return currentExpressionValue.toString();
+    }
+
+    @Override
+    public void setCurrentExpressionValue(String current) {
+        this.currentExpressionValue = new BigInteger(current);
+        view.showCurrentExpressionValue(current);
     }
 
     @Override

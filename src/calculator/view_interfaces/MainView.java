@@ -1,7 +1,5 @@
 package calculator.view_interfaces;
 
-import calculator.view_controller.RecordView;
-
 public interface MainView extends BaseView {
     void showCurrentNumber(String number);
 
@@ -9,5 +7,11 @@ public interface MainView extends BaseView {
 
     void showCurrentOperation(String operation);
 
-    RecordView addToHistory(RecordView record);
+    String switchOperation(String operation);
+
+    void enableUI();
+
+    void disableUI();
+
+    void disableExecute();
 }

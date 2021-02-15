@@ -7,24 +7,27 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
-import static calculator.core.ViewConstants.HISTORY_VIEW_ID;
-import static calculator.core.ViewConstants.MAIN_VIEW_ID;
+import java.util.Map;
+
+import static calculator.core.Constants.HISTORY_VIEW_ID;
+import static calculator.core.Constants.MAIN_VIEW_ID;
 
 
 public class HistoryViewController extends BaseViewController<HistoryModel> implements HistoryView {
 
     @FXML
-    private ListView<RecordView> listView;
+    private ListView<HistoryEntity> listView;
 
     @Override
-    public void refresh() {
+    public void refresh(Map<String, String> bundle) {
         listView.setItems(model.historyGet());
 
-        listView.setCellFactory(x -> new RecordListViewCell());
+        listView.setCellFactory(x -> new RecordListViewCell(viewManager));
     }
 
+
     @Override
-    public int getViewId(){
+    public int getViewId() {
         return HISTORY_VIEW_ID;
     }
 

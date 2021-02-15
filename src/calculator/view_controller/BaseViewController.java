@@ -1,8 +1,10 @@
 package calculator.view_controller;
 
+import calculator.core.ViewManager;
 import calculator.model.BaseModel;
 import calculator.view_interfaces.BaseView;
-import calculator.core.ViewManager;
+
+import java.util.Map;
 
 public abstract class BaseViewController<M extends BaseModel> implements BaseView {
     protected ViewManager viewManager;
@@ -18,11 +20,13 @@ public abstract class BaseViewController<M extends BaseModel> implements BaseVie
 
     public abstract int getViewId();
 
-    public void refresh(){
+    public void disableExecute() {
 
     }
 
+    public void refresh(Map<String, String> bundle) {
 
+    }
 
 
 }

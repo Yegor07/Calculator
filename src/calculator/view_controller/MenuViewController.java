@@ -6,8 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-
-import static calculator.core.ViewConstants.*;
+import static calculator.core.Constants.*;
 
 public class MenuViewController extends BaseViewController<MenuModel> implements MenuView {
 
