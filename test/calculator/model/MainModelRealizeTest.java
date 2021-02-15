@@ -2,7 +2,6 @@ package calculator.model;
 
 
 import calculator.DataBase.DBProvider;
-import calculator.view_controller.RecordView;
 import calculator.model_impl.MainModelRealize;
 import calculator.view_interfaces.MainView;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +33,23 @@ class MainModelRealizeTest {
             }
 
             @Override
-            public RecordView addToHistory(RecordView record) {
-                return record;
+            public String switchOperation(String operation){
+                return "";
+            }
+
+            @Override
+            public void enableUI() {
+
+            }
+
+            @Override
+            public void disableUI() {
+
+            }
+
+            @Override
+            public void disableExecute() {
+
             }
 
 
